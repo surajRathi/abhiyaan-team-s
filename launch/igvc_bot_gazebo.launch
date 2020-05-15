@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+    <env name="GAZEBO_MODEL_PATH" value="$(find igvc_bot)/models"/>
+    
+    <arg name="name" default="bot2" />
+    <arg name="world" default="igvc_ramp.world" />
 
 
-<arg name="x" default="0.0" />
-<arg name="y" default="0.0" />
-<arg name="z" default="0.2" />
-<arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf" />
-<arg name="robot_name" value="bot2" />
-<!-- This Version was created due to some errors seen in the V1 that crashed
-GAzebo or went too slow in spawn -->
-<!-- Load the URDF into the ROS Parameter Server -->
-<include file="$(find gazebo_ros)/launch/empty_world.launch">
-  <arg name="world_name" value="$(find igvc_bot)/worlds/igvc_ramp.world"/>
-    <arg name="paused" value="false"/>
-    <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="true"/>
-    <arg name="headless" value="false"/>
-    <arg name="debug" value="false"/>
-  </include>
+    <arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.2" />
+    <arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf" />
+    <arg name="robot_name" value="$(arg name)" />
+    <!-- This Version was created due to some errors seen in the V1 that crashed
+    GAzebo or went too slow in spawn -->
+    <!-- Load the URDF into the ROS Parameter Server -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find igvc_bot)/worlds/$(arg world)"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+      </include>
 
-<param name="robot_description" command="cat $(arg urdf_robot_file)" />
-<!-- Run a python script to the send a service call to gazebo_ros to spawn a
-URDF robot -->
+    <param name="robot_description" command="cat $(arg urdf_robot_file)" />
+    
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a
+    URDF robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+    respawn="false" output="screen"
+    args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name)
+    -param robot_description"/>
 
-<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-respawn="false" output="screen"
-args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name)
--param robot_description"/>
+    <remap from="/joint_states" to="/$(arg name)/joint_states" />
+    <arg name="joint_state_publisher" default="0" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" if="$(arg joint_state_publisher)">
+        <param name="use_gui" value="TRUE"/>
+    </node>
 
-<!--  <rosparam file = "$(find urdf_pack)/config/controller_param.yaml" command="load"/>  -->
- 
-<!--   <node name="joint_state_publisher" pkg="joint_state_publisher"
-type="joint_state_publisher">
-<param name="use_gui" value="TRUE"/>
-</node>   -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
 
-<node name ="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-<remap from="/joint_states" to="/ibot/joint_states" />
+    <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/> <!-- for rviz and future nav stack things -->
 
-<!--<node name="controller_spawner" pkg = "controller_manager" type="spawner" respawn="false" output="screen" ns ="ibot" args="joint_state_controller roll_joint_controller pitch_joint_controller yaw_joint_controller  "/>  -->
+    <arg name="rviz" default="0" />
+    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_bot.rviz)" />
 
-
-
-
-
+    <!--  <rosparam file = "$(find urdf_pack)/config/controller_param.yaml" command="load"/>  -->
+    <!--<node name="controller_spawner" pkg = "controller_manager" type="spawner" respawn="false" output="screen" ns ="$(arg name)" args="joint_state_controller roll_joint_controller pitch_joint_controller yaw_joint_controller  "/>  -->
 </launch>
