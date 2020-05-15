@@ -1,0 +1,62 @@
+<?xml version='1.0'?>
+<sdf version= "1.4">
+    <model name='Construction Barrel'>
+      <link name='link'>
+        <inertial>
+          <pose>0 0 0.5 0 -0 0</pose>
+          <mass>500</mass>
+          <inertia> 
+            <ixx>51.2096</ixx>
+            <iyy>51.2096</iyy>
+            <izz>25</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+        <collision name='collision'>
+          <geometry>
+            <cylinder>
+                <radius>0.3</radius>
+                <length>1.0</length>
+            </cylinder>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <cylinder>
+                <radius>0.3</radius>
+                <length>1.0</length>
+            </cylinder>
+          </geometry>
+          <material>
+          <script>
+            <uri>model://construction_barrel/materials/scripts</uri>
+            <uri>model://construction_barrel/materials/textures</uri>
+            <name>construction_barrel/Image</name>
+          </script>
+        </material>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+      <pose>-15 -21.4515 0 0 -0 0</pose>
+      <static>1</static>
+    </model>
+
+</sdf>
