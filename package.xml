@@ -70,6 +70,7 @@
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>rviz</exec_depend>
+  <depend>hector_gazebo_plugins </depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

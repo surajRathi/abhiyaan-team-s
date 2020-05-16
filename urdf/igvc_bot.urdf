@@ -434,4 +434,46 @@ izz="0.00169"/>
   </gazebo>
     
     
+    
+    <joint name="gps_joint" type="fixed">
+      <origin xyz="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="gps_link"/>
+    </joint>
+
+    <link name="gps_link"/>
+
+<!--
+    <gazebo>      
+      <sensor type="hector_gazebo_ros_gps" name="gps" >
+        <alwaysOn>true</alwaysOn>
+        <updateRate>4.0</updateRate>
+        <plugin name="gps" filename="libhector_gazebo_ros_test.so">
+            <bodyName>gps_link</bodyName>
+            <topicName>fix</topicName>
+            <velocityTopicName>fix_vel</velocityTopicName>
+            <drift>5.0 5.0 5.0</drift>
+            <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+            <velocityDrift>0 0 0</velocityDrift>
+            <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+            </plugin>
+      </sensor>
+    </gazebo>
+    -->
+    
+      <gazebo >
+    <plugin name="gps" filename="libhector_gazebo_ros_gps.so">
+      <alwaysOn>1</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <bodyName>gps_link</bodyName>
+    <frameId>gps_link</frameId>
+    
+      <topicName>fix</topicName>
+      <velocityTopicName>fix_velocity</velocityTopicName>
+      <drift>5.0 5.0 5.0</drift>
+      <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+      <velocityDrift>0 0 0</velocityDrift>
+      <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+    </plugin>
+  </gazebo>
 </robot>

@@ -25,7 +25,7 @@
     
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name) -param robot_description"/>
 
-    <remap from="/joint_states" to="/$(arg name)/joint_states" />
+    <!--<remap from="/joint_states" to="/$(arg name)/joint_states" />-->
     <arg name="joint_state_publisher" default="0" />
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" if="$(arg joint_state_publisher)">
         <param name="use_gui" value="TRUE"/>
