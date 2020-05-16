@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="bot2">
+<robot name="bot">
 
   <gazebo>
 	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
@@ -17,7 +17,7 @@
       <odometrySource>world</odometrySource>
       <publishOdomTF>true</publishOdomTF>
       <robotBaseFrame>base_footprint</robotBaseFrame>
-      <publishWheelTF>false</publishWheelTF>
+      <publishWheelTF>true</publishWheelTF> <!-- for proper rviz -->
       <publishTf>true</publishTf>
       <publishWheelJointState>true</publishWheelJointState>
       <legacyMode>false</legacyMode>
@@ -114,8 +114,7 @@
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="6" />
-      <inertia ixx="0.222416666667" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0"
-izz="0.732002666667"/>
+      <inertia ixx="0.222416666667" ixy="0.0" ixz="0.0" iyy="1" iyz="0.0" izz="0.732002666667"/>
     </inertial>
 
     <collision>
@@ -145,8 +144,7 @@ izz="0.732002666667"/>
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.2" />
-      <inertia ixx="0.00098" ixy="0.0" ixz="0.0" iyy="0.00098" iyz="0.0"
-izz="0.00169"/>
+      <inertia ixx="0.00098" ixy="0.0" ixz="0.0" iyy="0.00098" iyz="0.0" izz="0.00169"/>
     </inertial>
 
     <collision>
