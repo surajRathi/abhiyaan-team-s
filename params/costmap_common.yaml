@@ -1,0 +1,18 @@
+# scan value < obstacle_range => obstacle marked
+obstacle_range: 4.5
+# scan value < raytrace_range => space until that distance marked clear
+raytrace_range: 4.5
+
+# param which specifies geometry of the base (i.e top view) TODO
+# footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
+# Used instead of footprint, assumes robot has circular shape
+robot_radius: 1
+
+# meters away from obstacles which should be marked danger.
+inflation_radius: 0.30
+
+observation_sources: laser_distance_sensor
+
+laser_distance_sensor: {sensor_frame: laser_link, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+
+# point_cloud_sensor: {sensor_frame: frame_name, data_type: PointCloud, topic: topic_name, marking: true, clearing: true}
