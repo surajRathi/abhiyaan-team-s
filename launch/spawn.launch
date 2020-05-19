@@ -3,7 +3,7 @@
 
     <arg name="robot_name"/>
     <arg name="x" default="0.0" />
-    <arg name="y" default="0.0" />
+    <arg name="y" default="-22.0" />
     <arg name="z" default="0.2" />
 
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name) -param robot_description"/>

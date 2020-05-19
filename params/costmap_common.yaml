@@ -9,7 +9,7 @@ raytrace_range: 4.5
 robot_radius: 1
 
 # meters away from obstacles which should be marked danger.
-inflation_radius: 0.30
+inflation_radius: 0.35
 
 observation_sources: laser_distance_sensor
 

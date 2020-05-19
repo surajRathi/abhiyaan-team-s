@@ -5,9 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Grid1
-        - /Grid1/Status1
         - /TF1/Frames1
         - /igvc_bot1/Links1
+        - /CameraRight1
+        - /CameraLeft1
         - /CostmapGlobal1
       Splitter Ratio: 0.5
     Tree Height: 407
@@ -108,10 +109,10 @@ Visualization Manager:
                   {}
                 laser_link:
                   {}
-              left_tyre_link:
-                {}
-              right_tyre_link:
-                {}
+                left_tyre_link:
+                  {}
+                right_tyre_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -200,7 +201,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 999999
+      Min Intensity: 1.46892896e-34
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -215,7 +216,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera_right/image_raw
+      Image Topic: /camera/right/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -227,7 +228,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera_left/image_raw
+      Image Topic: /camera/right/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -345,7 +346,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 53.6581955
+      Distance: 31.5079918
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
