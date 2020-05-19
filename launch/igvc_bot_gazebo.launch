@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
     <!-- Do we need to shift everything to its own namespace? -->
-    
-    <arg name="name" default="bot" />
-    <arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf" />
 
-    <arg name="map" default="0" />
+    <arg name="name" default="bot"/>
+    <arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf"/>
 
-    <arg name="rviz" default="0" />
-    
-    
-    <include file="$(find igvc_bot)/launch/gazebo.launch" />
-    
-    <param name="robot_description" command="cat $(arg urdf_robot_file)" />
-    
-    <include file="$(find igvc_bot)/launch/spawn.launch">
-        <arg name="robot_name" value="$(arg name)" />
+    <arg name="map" default="0"/>
+
+    <arg name="rviz" default="0"/>
+
+
+    <include file="$(find igvc_bot)/launch/helper/gazebo.launch"/>
+
+    <param name="robot_description" command="cat $(arg urdf_robot_file)"/>
+
+    <include file="$(find igvc_bot)/launch/helper/spawn.launch">
+        <arg name="robot_name" value="$(arg name)"/>
     </include>
-    
+
     <!-- TF: Note some tf is published by gazebo's diff_drive controllor-->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
-    
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false"
+          output="screen"/>
+
     <!-- Nav Stack -->
-    
+
     <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/>
 
     <!-- TODO: Map and run amcl???
@@ -33,15 +34,15 @@
         <rosparam command="load" file="$(find igvc_bot)/params/amcl.yaml"/>
     </node>
     -->
-    
+
     <node pkg="move_base" type="move_base" name="move_base">
-        <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml" />
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="global_costmap" />
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap" />
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml" />
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml" />
+        <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="global_costmap"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
     </node>
-    
-    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz" />
-    
+
+    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz"/>
+
 </launch>
