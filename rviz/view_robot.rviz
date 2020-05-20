@@ -5,11 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
-        - /TF1/Tree1/map1/odom1/base_footprint1
-        - /TF1/Tree1/map1/odom1/base_footprint1/base_link1
         - /igvc_bot1/Links1
+        - /LaserScan1
         - /CameraLeft1
-        - /PointCloud21/Status1
+        - /PointCloud21
       Splitter Ratio: 0.497058809
     Tree Height: 407
   - Class: rviz/Selection
@@ -73,6 +72,8 @@ Visualization Manager:
           Value: false
         gps_link:
           Value: true
+        ground:
+          Value: true
         imu_link:
           Value: true
         laser_link:
@@ -113,6 +114,8 @@ Visualization Manager:
                   {}
                 right_tyre_link:
                   {}
+              ground:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -199,9 +202,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 0
       Min Color: 0; 0; 0
-      Min Intensity: 8.40779079e-45
+      Min Intensity: 0
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -216,7 +219,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/right/image_rect_color
+      Image Topic: /camera/left/image_masked
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -228,7 +231,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: true
-      Image Topic: /camera/left/image_rect_color
+      Image Topic: /camera/left/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -346,7 +349,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: RGB8
+      Color Transformer: ""
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -355,12 +358,12 @@ Visualization Manager:
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: PointCloud2
-      Position Transformer: XYZ
+      Position Transformer: ""
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.0500000007
-      Style: Spheres
+      Size (m): 0.00999999978
+      Style: Flat Squares
       Topic: /camera/points2
       Unreliable: false
       Use Fixed Frame: true
@@ -406,10 +409,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.424271405
+      Pitch: 0.684271395
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.72818518
+      Yaw: 5.18818426
     Saved: ~
 Window Geometry:
   CameraLeft:

@@ -6,7 +6,7 @@ raytrace_range: 4.5
 # param which specifies geometry of the base (i.e top view) TODO
 # footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
 # Used instead of footprint, assumes robot has circular shape
-robot_radius: 1
+robot_radius: 0.6
 
 # meters away from obstacles which should be marked danger.
 inflation_radius: 0.35

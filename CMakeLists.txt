@@ -19,7 +19,10 @@ find_package(catkin REQUIRED COMPONENTS
         sensor_msgs
         image_transport
         cv_bridge
-)
+        dynamic_reconfigure
+        image_geometry
+
+        )
 
 find_package(OpenCV)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -99,11 +102,9 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
 
-## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+generate_dynamic_reconfigure_options(
+        cfg/lanes.cfg
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -114,6 +115,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+
 catkin_package(
         #  INCLUDE_DIRS include
         #  LIBRARIES igvc_bot
@@ -220,5 +222,10 @@ include_directories(
 
 add_executable(lanes src/lanes/main.cpp)
 
+set_property(TARGET lanes PROPERTY CXX_STANDARD 11)
+
+
 target_link_libraries(lanes ${catkin_LIBRARIES})
 target_link_libraries(lanes ${OpenCV_LIBRARIES})
+
+add_dependencies(lanes ${PROJECT_NAME}_gencfg)

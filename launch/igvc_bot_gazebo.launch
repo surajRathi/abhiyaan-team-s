@@ -34,6 +34,9 @@
         <rosparam command="load" file="$(find igvc_bot)/params/amcl.yaml"/>
     </node>
     -->
+    <node ns="camera" pkg="igvc_bot" type="lanes" name="lanes" output="screen">
+        <rosparam command="load" file="$(find igvc_bot)/params/lanes.yaml"/>
+    </node>
 
     <node pkg="move_base" type="move_base" name="move_base">
         <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
