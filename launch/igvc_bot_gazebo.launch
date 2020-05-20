@@ -8,6 +8,7 @@
     <arg name="map" default="0"/>
 
     <arg name="rviz" default="0"/>
+    <arg name="lanes_mono" default="1"/>
 
 
     <include file="$(find igvc_bot)/launch/helper/gazebo.launch"/>
@@ -16,6 +17,7 @@
 
     <include file="$(find igvc_bot)/launch/helper/spawn.launch">
         <arg name="robot_name" value="$(arg name)"/>
+        <arg name="lanes_mono" value="$(arg lanes_mono)"/>
     </include>
 
     <!-- TF: Note some tf is published by gazebo's diff_drive controllor-->
@@ -34,8 +36,9 @@
         <rosparam command="load" file="$(find igvc_bot)/params/amcl.yaml"/>
     </node>
     -->
-    <node ns="camera" pkg="igvc_bot" type="lanes" name="lanes" output="screen">
-        <rosparam command="load" file="$(find igvc_bot)/params/lanes.yaml"/>
+
+    <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
+        <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
     </node>
 
     <node pkg="move_base" type="move_base" name="move_base">

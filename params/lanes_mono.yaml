@@ -1,0 +1,10 @@
+h_lower: 0
+h_upper: 180
+s_lower: 0
+s_upper: 40
+v_lower: 0
+v_upper: 255
+erosion_size: 5
+erosion_iter: 2
+publish_masked: 1
+blur_size: 3

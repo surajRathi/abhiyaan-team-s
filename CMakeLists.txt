@@ -220,12 +220,12 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-add_executable(lanes src/lanes/main.cpp)
+add_executable(lanes_mono src/lanes/lanes_mono.cpp)
 
-set_property(TARGET lanes PROPERTY CXX_STANDARD 11)
+set_property(TARGET lanes_mono PROPERTY CXX_STANDARD 11)
 
 
-target_link_libraries(lanes ${catkin_LIBRARIES})
-target_link_libraries(lanes ${OpenCV_LIBRARIES})
+target_link_libraries(lanes_mono ${catkin_LIBRARIES})
+target_link_libraries(lanes_mono ${OpenCV_LIBRARIES})
 
-add_dependencies(lanes ${PROJECT_NAME}_gencfg)
+add_dependencies(lanes_mono ${PROJECT_NAME}_gencfg)
