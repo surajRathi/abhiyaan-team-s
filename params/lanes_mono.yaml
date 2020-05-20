@@ -4,7 +4,7 @@ s_lower: 0
 s_upper: 40
 v_lower: 0
 v_upper: 255
-erosion_size: 4
+erosion_size: 3
 erosion_iter: 1
 publish_masked: yes
 blur_size: 3
