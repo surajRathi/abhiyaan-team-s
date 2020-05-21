@@ -3,18 +3,20 @@
 # scan value < raytrace_range => space until that distance marked clear
 
 
-# param which specifies geometry of the base (i.e top view) TODO
-# footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
+# param which specifies geometry of the base (i.e top view)
+footprint: [[0.85,0], [0.75,0.15], [0.15, 0.28], [0.15, 0.34], [-0.08, 0.34], [-0.15, 0.26], [-0.15, -0.26], [-0.08, -0.34], [0.15, -0.34], [0.15, -0.28], [0.75,-0.15]]
+footprint_padding: 0.05
+# TODO: Simplify footprint for global costmap?
 # Used instead of footprint, assumes robot has circular shape
-robot_radius: 0.6
+# robot_radius: 0.6
 
 # meters away from obstacles which should be marked danger.
-inflation_radius: 0.351
+inflation_radius: 0.15
 
 observation_sources: laser_distance_sensor lane_detection_mono
 
 laser_distance_sensor: {sensor_frame: laser_link, data_type: LaserScan, topic: scan, marking: true, clearing: true, obstacle_range: 4.5, raytrace_range: 4.5}
 
-lane_detection_mono: {sensor_frame: camera_left, data_type: PointCloud2, topic: camera/left/points2, marking: true, clearing: false, obstacle_range: 20, min_obstacle_height: -0.5} # observation_persistence: 5}
+lane_detection_mono: {sensor_frame: camera_left, data_type: PointCloud2, topic: camera/left/points2, marking: true, clearing: false, obstacle_range: 20, min_obstacle_height: -0.5, observation_persistence: 2}
 
 # point_cloud_sensor: {sensor_frame: frame_name, data_type: PointCloud, topic: topic_name, marking: true, clearing: true}

@@ -17,3 +17,5 @@ TrajectoryPlannerROS:
 
   # Allow achieving yaw to go outside xy tolerence?
   latch_xy_goal_tolerance: false
+
+  publish_frequency: 2.0
