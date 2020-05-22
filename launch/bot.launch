@@ -1,39 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <!-- Do we need to shift everything to its own namespace? -->
-
+    <!-- RUN ONLY WHILE RUNNING THE gazebo.launch -->
     <arg name="name" default="bot"/>
-    <arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf"/>
 
-    <arg name="map" default="0"/>
-
-    <arg name="rviz" default="0"/>
     <arg name="lanes_mono" default="1"/>
 
+    <arg name="rviz" default="1"/>
 
-    <include file="$(find igvc_bot)/launch/gazebo.launch"/>
 
-    <param name="robot_description" command="cat $(arg urdf_robot_file)"/>
-
+    <!-- Spawn Bot -->
+    <node pkg="rosservice" type="rosservice" name="bot_killer" args="call /gazebo/delete_model $(arg name)"/>
     <include file="$(find igvc_bot)/launch/helper/spawn.launch">
         <arg name="name" value="$(arg name)"/>
     </include>
 
 
-    <!-- Nav Stack -->
-
-    <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/>
-
-    <!-- TODO: Map and run amcl???
-    <node pkg="gmapping" type="slam_gmapping" name="gmapping" if="$(arg map)">
-        <rosparam command="load" file="$(find igvc_bot)/params/gmapping.yaml" />
-    </node>
-    <node pkg="amcl" type="amcl" name="amcl" unless="$(arg map)"> 
-        <rosparam command="load" file="$(find igvc_bot)/params/amcl.yaml"/>
-    </node>
-    -->
-
-    <!-- Camera based Detection -->
+    <!-- Camera Based Detection -->
     <node name="img_proc_left" pkg="image_proc" type="image_proc" ns="/camera/left" if="$(arg lanes_mono)"/>
     <node name="stereo_processor" ns="camera" pkg="stereo_image_proc" type="stereo_image_proc"
           unless="$(arg lanes_mono)"/>
@@ -41,6 +23,10 @@
     <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
     </node>
+
+
+    <!-- Nav Stack -->
+    <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/>
 
     <node pkg="move_base" type="move_base" name="move_base">
         <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
@@ -50,6 +36,7 @@
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
     </node>
 
+    <!-- rviz -->
     <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz"/>
-
 </launch>
+

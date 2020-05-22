@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-    <arg name="robot_name"/>
+    <arg name="name"/>
+    <arg name="type" default="igvc_bot"/>
+
+    <!-- Spawn location for the ramp map -->
     <arg name="x" default="0.0"/>
     <arg name="y" default="-22.0"/>
-    <arg name="z" default="0.2"/>
-    <arg name="lanes_mono" default="1"/>
+    <arg name="z" default="0.1"/>
+
+    <param name="robot_description" command="cat $(find igvc_bot)/urdf/$(arg type).urdf"/>
 
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-          args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg robot_name) -param robot_description"/>
+          args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg name) -param robot_description"/>
 
     <node name="base_to_ground_transform" pkg="tf2_ros" type="static_transform_publisher"
           args="0 0 -0.12 0 0 0 base_footprint ground"/>
 
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false"
+          output="screen"/>
 
-    <node name="img_proc_left" pkg="image_proc" type="image_proc" ns="/camera/left" if="$(arg lanes_mono)"/>
-
-    <node name="stereo_processor" ns="camera" pkg="stereo_image_proc" type="stereo_image_proc"
-          unless="$(arg lanes_mono)"/>
 </launch>
