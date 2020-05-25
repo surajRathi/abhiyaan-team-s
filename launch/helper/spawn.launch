@@ -14,8 +14,6 @@
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
           args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg name) -param robot_description"/>
 
-    <node name="base_to_ground_transform" pkg="tf2_ros" type="static_transform_publisher"
-          args="0 0 -0.12 0 0 0 base_footprint ground"/>
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false"
           output="screen"/>
