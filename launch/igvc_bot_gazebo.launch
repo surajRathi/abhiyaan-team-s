@@ -21,8 +21,9 @@
 
 
     <!-- Nav Stack -->
-
-    <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/>
+    <include file="$(find igvc_bot)/launch/localisation.launch"/>
+    
+    <!--<node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/> -->
 
     <!-- TODO: Map and run amcl???
     <node pkg="gmapping" type="slam_gmapping" name="gmapping" if="$(arg map)">
