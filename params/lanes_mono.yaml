@@ -1,10 +1,2 @@
-h_lower: 0
-h_upper: 180
-s_lower: 0
-s_upper: 40
-v_lower: 0
-v_upper: 255
-erosion_size: 3
-erosion_iter: 1
-publish_masked: yes
-blur_size: 3
+{blur_size: 4, erosion_iter: 2, erosion_size: 4, h_lower: 0, h_upper: 180, publish_masked: true,
+  s_lower: 0, s_upper: 50, upper_mask_percent: 60, v_lower: 0, v_upper: 255}
