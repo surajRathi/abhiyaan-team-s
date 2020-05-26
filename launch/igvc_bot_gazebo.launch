@@ -22,15 +22,12 @@
 
     <!-- Nav Stack -->
     <include file="$(find igvc_bot)/launch/localisation.launch"/>
-    
+
     <!--<node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/> -->
 
     <!-- TODO: Map and run amcl???
     <node pkg="gmapping" type="slam_gmapping" name="gmapping" if="$(arg map)">
         <rosparam command="load" file="$(find igvc_bot)/params/gmapping.yaml" />
-    </node>
-    <node pkg="amcl" type="amcl" name="amcl" unless="$(arg map)"> 
-        <rosparam command="load" file="$(find igvc_bot)/params/amcl.yaml"/>
     </node>
     -->
 
@@ -49,6 +46,8 @@
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
+
+        <remap from="/odometry/filtered" to="/odom"/>
     </node>
 
     <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz"/>

@@ -35,6 +35,8 @@
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
+
+        <remap from="/odometry/filtered" to="/odom"/>
     </node>
 
     <!-- rviz -->
