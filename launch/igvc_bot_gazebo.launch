@@ -10,8 +10,12 @@
     <arg name="rviz" default="0"/>
     <arg name="lanes_mono" default="1"/>
 
+    <arg name="gazebo_gui" default="1"/>
 
-    <include file="$(find igvc_bot)/launch/gazebo.launch"/>
+
+    <include file="$(find igvc_bot)/launch/gazebo.launch">
+        <arg name="gui" value="$(arg gazebo_gui)"/>
+    </include>
 
     <param name="robot_description" command="cat $(arg urdf_robot_file)"/>
 

@@ -1,3 +1,15 @@
+base_global_planner: global_planner/GlobalPlanner
+
+base_local_planner: base_local_planner/TrajectoryPlannerROS
+
+
+# Default: 0.0 i.e. global planner only update when goal set. i.e ignores new obstacles
+# Now updates once every two seconds.
+planner_frequency: 0.5
+
+GlobalPlanner:
+  orientation_mode: 1 # Forward
+
 TrajectoryPlannerROS:
   holonomic_robot: false
 
@@ -12,7 +24,10 @@ TrajectoryPlannerROS:
   acc_lim_theta: 3.2
   acc_lim_x: 2.5
 
-  yaw_goal_tolerance: 0.1
+  #yaw_goal_tolerance: 0.1
+  # For GPS waypoints, orientation doesnt matter!
+  yaw_goal_tolerance: 3.15
+
   xy_goal_tolerance: 0.2
 
   # Allow achieving yaw to go outside xy tolerence?

@@ -10,7 +10,7 @@
 
 
     <!-- Spawn Bot -->
-    <node pkg="rosservice" type="rosservice" name="bot_killer" args="call /gazebo/delete_model $(arg name)"/>
+    <!--<node pkg="rosservice" type="rosservice" name="bot_killer" args="call /gazebo/delete_model $(arg name)"/>-->
     <include file="$(find igvc_bot)/launch/helper/spawn.launch">
         <arg name="name" value="$(arg name)"/>
     </include>

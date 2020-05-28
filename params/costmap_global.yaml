@@ -6,9 +6,12 @@ global_costmap:
   # Should this be base_footprint?
   robot_base_frame: base_link
 
-  publish_frequency: 2.0
-  static_map: false
 
-  rolling_window: true
-  width: 30.0
-  height: 30.0
+  publish_frequency: 2.0
+
+  rolling_window: false
+  width: 50.0
+  height: 50.0
+
+  origin_x: -25.0
+  origin_y: -25.0
