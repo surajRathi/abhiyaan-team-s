@@ -17,11 +17,17 @@
 
 
     <!-- Camera Based Detection -->
-    <node name="img_proc_left" pkg="image_proc" type="image_proc" ns="/camera/left" if="$(arg lanes_mono)"/>
+    <node name="img_proc" pkg="image_proc" type="image_proc" ns="camera/left" if="$(arg lanes_mono)"/>
+    <node name="img_proc" pkg="image_proc" type="image_proc" ns="camera/right" if="$(arg lanes_mono)"/>
+
     <node name="stereo_processor" ns="camera" pkg="stereo_image_proc" type="stereo_image_proc"
           unless="$(arg lanes_mono)"/>
 
     <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
+        <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
+    </node>
+
+    <node ns="camera/right" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
     </node>
 
@@ -36,7 +42,7 @@
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
 
-        <remap from="/odometry/filtered" to="/odom"/>
+        <remap from="odometry/filtered" to="odom"/>
     </node>
 
     <!-- rviz -->
