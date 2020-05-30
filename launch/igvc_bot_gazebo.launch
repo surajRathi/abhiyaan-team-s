@@ -9,10 +9,9 @@
 
     <arg name="rviz" default="0"/>
     <arg name="lanes_mono" default="1"/>
-
     <arg name="gazebo_gui" default="1"/>
-
     <arg name="fake_obstacle" default="0"/>
+    <arg name="ekf" default="1"/>
 
 
     <include file="$(find igvc_bot)/launch/gazebo.launch">
@@ -27,7 +26,9 @@
 
 
     <!-- Nav Stack -->
-    <include file="$(find igvc_bot)/launch/localisation.launch"/>
+    <include file="$(find igvc_bot)/launch/localisation.launch" if="$(arg ekf)"/>
+    <node name="map_to_odom" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map odom"
+          unless="$(arg ekf)"/>
 
     <!--<node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/> -->
 
@@ -46,9 +47,13 @@
 
     <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
+        <rosparam param="initial_path/x">[ -1.0, 0]</rosparam>
+        <rosparam param="initial_path/y">[ -21, -21]</rosparam>
     </node>
     <node ns="camera/right" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
+        <rosparam param="initial_path/x">[ -1.0, 0]</rosparam>
+        <rosparam param="initial_path/y">[ -23, -23]</rosparam>
     </node>
 
     <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle.py" if="$(arg fake_obstacle)"/>
@@ -60,7 +65,7 @@
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
 
-        <remap from="odometry/filtered" to="odom"/>
+        <remap from="odometry/filtered" to="odom" if="$(arg ekf)"/>
 
         <remap from="/scan" to="/fakescan" if="$(arg fake_obstacle)"/>
     </node>
