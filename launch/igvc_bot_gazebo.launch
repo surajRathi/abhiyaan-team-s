@@ -47,13 +47,13 @@
 
     <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
-        <rosparam param="initial_path/x">[ -1.0, 0]</rosparam>
-        <rosparam param="initial_path/y">[ -21, -21]</rosparam>
+        <rosparam param="initial_path/x">[ -1.0, -0.5, 0]</rosparam>
+        <rosparam param="initial_path/y">[ -21, -21, -21]</rosparam>
     </node>
     <node ns="camera/right" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" output="screen" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
-        <rosparam param="initial_path/x">[ -1.0, 0]</rosparam>
-        <rosparam param="initial_path/y">[ -23, -23]</rosparam>
+        <rosparam param="initial_path/x">[ -1.0, -0.5, 0]</rosparam>
+        <rosparam param="initial_path/y">[ -23, -23, -23]</rosparam>
     </node>
 
     <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle.py" if="$(arg fake_obstacle)"/>
