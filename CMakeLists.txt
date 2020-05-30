@@ -229,3 +229,7 @@ target_link_libraries(lanes_mono ${catkin_LIBRARIES})
 target_link_libraries(lanes_mono ${OpenCV_LIBRARIES})
 
 add_dependencies(lanes_mono ${PROJECT_NAME}_gencfg)
+
+include_directories(${catkin_INCLUDE_DIRS} include)
+
+add_library(lanes_layer src/lanes_layer/LanesLayer.cc)
