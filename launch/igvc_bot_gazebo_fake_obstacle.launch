@@ -47,8 +47,8 @@
     <node pkg="move_base" type="move_base" name="move_base">
         <param name="clearing_rotation_allowed" value ="false" />
         <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="global_costmap"/>
-        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common_fake_obstacle.yaml" ns="global_costmap"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/costmap_common_fake_obstacle.yaml" ns="local_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
 
