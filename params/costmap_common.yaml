@@ -11,7 +11,10 @@ footprint_padding: 0.05
 
 plugins:
   - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+  - {name: lanes_left, type: "lanes_layer::LanesLayer"}
+  - {name: lanes_right, type: "lanes_layer::LanesLayer"}
   - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
 
 obstacle_layer:
   # Specify sensors used in the costmap
@@ -25,6 +28,10 @@ obstacle_layer:
   # marking: scan value < obstacle_range => obstacle marked
   # clearing: scan value < raytrace_range => space until that distance marked clear
 
+lanes_left:
+  topic: "/camera/left/lane/updates"
+lanes_right:
+  topic: "/camera/right/lane/updates"
 
 # These params also help fill the gaps in lanes.
 inflation_layer:

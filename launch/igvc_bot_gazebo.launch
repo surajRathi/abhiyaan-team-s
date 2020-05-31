@@ -58,7 +58,7 @@
 
     <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle.py" if="$(arg fake_obstacle)"/>
 
-    <node pkg="move_base" type="move_base" name="move_base">
+    <node pkg="move_base" type="move_base" name="move_base" output="screen">
         <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="global_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>

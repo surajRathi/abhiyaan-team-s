@@ -6,7 +6,6 @@ global_costmap:
   # Should this be base_footprint?
   robot_base_frame: base_link
 
-
   publish_frequency: 2.0
 
   rolling_window: false
@@ -15,3 +14,5 @@ global_costmap:
 
   origin_x: -25.0
   origin_y: -25.0
+
+  resolution: 0.25

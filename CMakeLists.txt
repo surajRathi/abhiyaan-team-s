@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(igvc_bot)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++17)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -65,9 +65,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 ## Generate messages in the 'msg' folder
 add_message_files(
-  FILES
-  Lane.msg
-#   Message2.msg
+        FILES
+        Lane.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -86,9 +85,9 @@ add_message_files(
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-  geometry_msgs
+        DEPENDENCIES
+        std_msgs
+        geometry_msgs
 )
 
 ################################################
@@ -223,10 +222,9 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-add_executable(lanes_mono src/lanes/lanes_mono.cpp)
+add_executable(lanes_mono src/lanes/lanes_mono.cpp src/lanes/LaneHelpers.cpp include/igvc_bot/LaneHelpers.h)
 
 set_property(TARGET lanes_mono PROPERTY CXX_STANDARD 11)
-
 
 target_link_libraries(lanes_mono ${catkin_LIBRARIES})
 target_link_libraries(lanes_mono ${OpenCV_LIBRARIES})
@@ -235,4 +233,8 @@ add_dependencies(lanes_mono ${PROJECT_NAME}_gencfg)
 
 include_directories(${catkin_INCLUDE_DIRS} include)
 
+
 add_library(lanes_layer src/lanes_layer/LanesLayer.cc)
+
+add_custom_target(project)
+add_dependencies(project lanes_mono lanes_layer)
