@@ -5,18 +5,20 @@
     <arg name="name" default="bot"/>
     <arg name="urdf_robot_file" value="$(find igvc_bot)/urdf/igvc_bot.urdf"/>
 
-    <arg name="map" default="0"/>
-
-    <arg name="rviz" default="0"/>
-    <arg name="lanes_mono" default="1"/>
-    <arg name="gazebo_gui" default="1"/>
-    <arg name="fake_obstacle" default="0"/>
+    <!-- Module switches -->
     <arg name="ekf" default="1"/>
+    <arg name="lanes_mono" default="1"/>
+    <arg name="fake_obstacle" default="1"/>
+
+    <!-- Visualization switches -->
+    <arg name="gazebo_gui" default="1"/>
+    <arg name="rviz" default="0"/>
 
 
-    <include file="$(find igvc_bot)/launch/gazebo.launch">
+    <include file="$(find igvc_bot)/launch/helper/gazebo.launch">
         <arg name="gui" value="$(arg gazebo_gui)"/>
     </include>
+
 
     <param name="robot_description" command="cat $(arg urdf_robot_file)"/>
 
@@ -26,24 +28,15 @@
 
 
     <!-- Nav Stack -->
-    <include file="$(find igvc_bot)/launch/localisation.launch" if="$(arg ekf)"/>
-    <node name="map_to_odom" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 1 map odom"
+    <include file="$(find igvc_bot)/launch/helper/localisation.launch" if="$(arg ekf)"/>
+    <node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 1 map odom"
           unless="$(arg ekf)"/>
 
-    <!--<node name="map_to_odom_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map odom"/> -->
-
-    <!-- TODO: Map and run amcl???
-    <node pkg="gmapping" type="slam_gmapping" name="gmapping" if="$(arg map)">
-        <rosparam command="load" file="$(find igvc_bot)/params/gmapping.yaml" />
-    </node>
-    -->
+    <!-- TODO: run amcl???-->
 
     <!-- Camera based Detection -->
     <node name="img_proc" pkg="image_proc" type="image_proc" ns="camera/left" if="$(arg lanes_mono)"/>
     <node name="img_proc" pkg="image_proc" type="image_proc" ns="camera/right" if="$(arg lanes_mono)"/>
-
-    <node name="stereo_processor" ns="camera" pkg="stereo_image_proc" type="stereo_image_proc"
-          unless="$(arg lanes_mono)"/>
 
     <node ns="camera/left" pkg="igvc_bot" type="lanes_mono" name="lanes_mono" if="$(arg lanes_mono)">
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
@@ -56,22 +49,19 @@
         <rosparam param="initial_path/y">[ -22, -23, -23, -23]</rosparam>
     </node>
 
+
     <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle.py" if="$(arg fake_obstacle)"/>
 
-    <node pkg="move_base" type="move_base" name="move_base" output="screen">
-        <rosparam command="load" file="$(find igvc_bot)/params/base_local_planner.yaml"/>
+    <node pkg="move_base" type="move_base" name="move_base">
+        <param name="clearing_rotation_allowed" value="false"/>
+        <rosparam command="load" file="$(find igvc_bot)/params/move_base.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="global_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_common.yaml" ns="local_costmap"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_global.yaml"/>
         <rosparam command="load" file="$(find igvc_bot)/params/costmap_local.yaml"/>
 
         <remap from="odometry/filtered" to="odom" if="$(arg ekf)"/>
-
-        <remap from="/scan" to="/fakescan" if="$(arg fake_obstacle)"/>
     </node>
 
-    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz">
-        <remap from="/scan" to="/fakescan" if="$(arg fake_obstacle)"/>
-    </node>
-
+    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find igvc_bot)/rviz/view_robot.rviz"/>
 </launch>

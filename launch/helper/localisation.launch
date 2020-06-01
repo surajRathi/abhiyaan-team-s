@@ -1,0 +1,23 @@
+<launch>
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform_node" respawn="true">
+
+        <rosparam command="load" file="$(find igvc_bot)/params/navsat.yaml"/>
+
+        <remap from="/imu/data" to="/imu"/>
+        <remap from="/gps/fix" to="/fix"/>
+        <remap from="/odometry/filtered" to="/odometry/filtered"/>
+
+    </node>
+
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf" clear_params="true">
+        <rosparam param="initial_state">[0, -22, 0.1,
+            0, 0.0, 0,
+            0, 0, 0,
+            0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0]
+        </rosparam>
+
+        <rosparam command="load" file="$(find igvc_bot)/params/ekf_localization.yaml"/>
+    </node>
+
+</launch>
