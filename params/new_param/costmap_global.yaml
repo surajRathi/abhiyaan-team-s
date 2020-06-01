@@ -1,0 +1,19 @@
+ 
+global_costmap:
+  # /map is a frame with no drift, though it may change suddenly
+  # by amcl.
+  global_frame: /map
+
+  # Should this be base_footprint?
+  robot_base_frame: base_link
+
+  update_frequency: 1  #new
+  publish_frequency: 2
+  resolution: 0.05 #new
+
+  rolling_window: false
+  width: 50.0
+  height: 50.0
+
+  origin_x: -25.0
+  origin_y: -25.0

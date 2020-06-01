@@ -1,0 +1,49 @@
+base_global_planner: global_planner/GlobalPlanner
+
+base_local_planner: base_local_planner/TrajectoryPlannerROS
+
+
+# Default: 0.0 i.e. global planner only update when goal set. i.e ignores new obstacles
+# Now updates once every two seconds.
+planner_frequency: 10  #0.5
+
+GlobalPlanner:
+  orientation_mode: 1 # Forward
+  cost factor: 0.55 #new
+  neutral cost: 66 #new
+  lethal cost: 253 #new
+
+TrajectoryPlannerROS:
+  holonomic_robot: false
+
+  # TODO change all of these values: Should we ask in #software?
+  max_vel_x: 1.2   #2
+  min_vel_x: 0.2
+  escape_vel: -0.1
+
+  max_vel_theta: 1.5  #1
+  min_in_place_vel_theta: 0.5
+
+  acc_lim_theta: 2 #3.2
+  acc_lim_x: 1.2 #2.5
+
+  #yaw_goal_tolerance: 0.1
+
+# Forward Simulation Parameters
+  sim_time: 1.5
+  vx_samples: 20
+  vy_samples: 0
+  vth_samples: 20
+  controller_frequency: 20.0
+
+  # For GPS waypoints, orientation doesnt matter!
+  yaw_goal_tolerance: 3.15
+  xy_goal_tolerance: 1 #0.2
+
+  oscillation_reset_dist: 0.08 #new
+  occdist_scale: 1 #new
+  heading_lookahead: 1.2
+  # Allow achieving yaw to go outside xy tolerence?
+  latch_xy_goal_tolerance: false
+
+  publish_frequency: 10 #2
