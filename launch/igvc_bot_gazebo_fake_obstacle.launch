@@ -51,7 +51,7 @@
         <rosparam command="load" file="$(find igvc_bot)/params/lanes_mono.yaml"/>
     </node>
 
-    <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle.py" if="$(arg fake_obstacle)"/>
+    <node name="fake_laser" pkg="igvc_bot" type="fake_obstacle2.py" if="$(arg fake_obstacle)"/>
 
     <node pkg="move_base" type="move_base" name="move_base">
         <param name="clearing_rotation_allowed" value="false"/>
