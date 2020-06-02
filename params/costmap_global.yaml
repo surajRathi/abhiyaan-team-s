@@ -34,5 +34,5 @@ global_costmap:
 
   inflation_layer:
     # meters away from obstacles which should be marked danger.
-    inflation_radius: 0.4
-    cost_scaling_factor: 10 # Slower decrease in cost3
+    inflation_radius: 4
+    cost_scaling_factor: 6 # Slower decrease in cost3
