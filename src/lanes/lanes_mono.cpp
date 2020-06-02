@@ -59,7 +59,7 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
         tf::StampedTransform transform;
         helper.listener.lookupTransform(ground_frame, helper.cameraModel.tfFrame(), ros::Time(0), transform);
 
-        cv::Mat hsv, blur, raw_mask, eroded_mask, final_mask, final_mask2, final_mask1, masked;
+        cv::Mat hsv, blur, raw_mask, eroded_mask, final_mask, final_mask2, final_mask1, masked, bgr, grey;
 
         cv_bridge::CvImageConstPtr cv_img = cv_bridge::toCvCopy(msg_left, "bgr8");
 
@@ -79,10 +79,13 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
         raw_mask(cv::Rect(0, 0, raw_mask.cols, (int) (raw_mask.rows * helper.rect_frac))) = 0;
 
         cv::erode(raw_mask, eroded_mask, helper.erosion_element, cv::Point(-1, -1), helper.erosion_iter);
-	
-	cv::medianBlur(eroded_mask,final_mask1,3);
+	if(eroded_mask.empty()){
+	cv::cvtColor(eroded_mask, bgr, cv::COLOR_HSV2BGR);
+	cv::cvtColor(bgr, grey, cv::COLOR_BGR2GRAY);
+	cv::medianBlur(grey,final_mask1,3);
         cv::medianBlur(final_mask1,final_mask2,3);
 	cv::medianBlur(final_mask2,final_mask,5);
+}
 
         // TODO: Make sure we arent detecting any weird blobs and only the lane.
 
