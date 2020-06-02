@@ -24,3 +24,8 @@ local_costmap:
   obstacle_layer:
     observation_sources: laser_distance_sensor lane_detection_left lane_detection_right
 
+  inflation_layer:
+    # meters away from obstacles which should be marked danger.
+    inflation_radius: 0.1
+    cost_scaling_factor: 10 # Slower decrease in cost3
+
