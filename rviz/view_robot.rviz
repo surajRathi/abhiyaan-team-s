@@ -211,9 +211,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 8.40779079e-45
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 8.40779079e-45
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -255,12 +255,12 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: CostmapLocal
           Topic: /move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 0.300000012
           Class: rviz/Map
           Color Scheme: costmap
