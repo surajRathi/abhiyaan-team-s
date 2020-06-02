@@ -21,6 +21,6 @@ local_costmap:
     - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
     - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
 
-obstacle_layer:
-  observation_sources: laser_distance_sensor lane_detection_left lane_detection_right
+  obstacle_layer:
+    observation_sources: laser_distance_sensor lane_detection_left lane_detection_right
 

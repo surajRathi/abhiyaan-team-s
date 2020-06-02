@@ -5,6 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /igvc_bot1/Links1
+        - /LaneMono1/CameraLeft1
+        - /LaneMono1/CameraRight1
         - /GazeboOdom1/Shape1
       Splitter Ratio: 0.497058809
     Tree Height: 406
@@ -209,7 +211,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 2.77556865e-07
+      Max Intensity: 999999
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: LaserScan
@@ -259,7 +261,7 @@ Visualization Manager:
           Unreliable: false
           Use Timestamp: false
           Value: true
-        - Alpha: 0.5
+        - Alpha: 0.300000012
           Class: rviz/Map
           Color Scheme: costmap
           Draw Behind: true
@@ -336,7 +338,7 @@ Visualization Manager:
       Displays:
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /camera/left/image_raw
+          Image Topic: /camera/left/image_masked
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -348,7 +350,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /camera/right/image_color
+          Image Topic: /camera/right/image_masked
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -380,9 +382,9 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 3
+          Size (Pixels): 1
           Size (m): 0.100000001
-          Style: Flat Squares
+          Style: Points
           Topic: /camera/left/points2
           Unreliable: false
           Use Fixed Frame: true
@@ -410,9 +412,9 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 3
+          Size (Pixels): 1
           Size (m): 0.100000001
-          Style: Flat Squares
+          Style: Points
           Topic: /camera/right/points2
           Unreliable: false
           Use Fixed Frame: true
@@ -522,7 +524,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 57.8852921
+      Scale: 48.7439308
       Target Frame: base_footprint
       Value: TopDownOrtho (rviz)
       X: 0

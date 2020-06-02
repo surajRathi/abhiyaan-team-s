@@ -24,5 +24,10 @@ global_costmap:
     - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
 
 
-obstacle_layer:
-  observation_sources: laser_distance_sensor
+  obstacle_layer:
+    observation_sources: laser_distance_sensor
+
+  lanes_left:
+    topic: "/camera/left/lane/updates"
+  lanes_right:
+    topic: "/camera/right/lane/updates"

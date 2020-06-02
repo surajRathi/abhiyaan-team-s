@@ -17,16 +17,10 @@ obstacle_layer:
   #laser_distance_sensor_fake: {sensor_frame: laser_link, data_type: LaserScan, topic: fakescan, marking: true, clearing: false, obstacle_range: 4.5, raytrace_range: 4.5}
 
   lane_detection_left: {sensor_frame: camera_left, data_type: PointCloud2, topic: camera/left/points2, marking: true, clearing: false, obstacle_range: 20, min_obstacle_height: -0.5, observation_persistence: 2}
-
   lane_detection_right: {sensor_frame: camera_right, data_type: PointCloud2, topic: camera/right/points2, marking: true, clearing: false, obstacle_range: 20, min_obstacle_height: -0.5, observation_persistence: 2}
 
   # marking: scan value < obstacle_range => obstacle marked
   # clearing: scan value < raytrace_range => space until that distance marked clear
-
-lanes_left:
-  topic: "/camera/left/lane/updates"
-lanes_right:
-  topic: "/camera/right/lane/updates"
 
 # These params also help fill the gaps in lanes.
 inflation_layer:
