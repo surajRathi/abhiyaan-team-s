@@ -9,3 +9,11 @@ erosion_iter: 3 #1
 publish_masked: yes
 blur_size: 5 #3
 upper_mask_percent: 60
+
+
+lanes:
+  max_points: 10000
+  stride: 10
+  epsilon_dist: 0.25
+
+
