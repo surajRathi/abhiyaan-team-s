@@ -6,7 +6,7 @@ from rospy import logerr as ERR
 import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
-waypoints = [[4, -21.5], [5.5, 20], [0, 8.5], [-6, 19], [-4, -21.5]]
+waypoints = [[4, -21.5], [5.5, 20], [-9, 18], [-4, -21.5]]
 
 
 def main():
