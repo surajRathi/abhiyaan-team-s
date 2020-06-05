@@ -33,7 +33,7 @@ TrajectoryPlannerROS:
   sim_time: 1.5
   vx_samples: 20
   vy_samples: 0
-  vth_samples: 20
+  vth_samples: 40
   controller_frequency: 20.0
 
   # For GPS waypoints, orientation doesnt matter!
