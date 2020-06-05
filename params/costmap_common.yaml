@@ -22,8 +22,3 @@ obstacle_layer:
   # marking: scan value < obstacle_range => obstacle marked
   # clearing: scan value < raytrace_range => space until that distance marked clear
 
-# These params also help fill the gaps in lanes.
-inflation_layer:
-  # meters away from obstacles which should be marked danger.
-  inflation_radius: 0.2
-  cost_scaling_factor: 10 # Slower decrease in cost3

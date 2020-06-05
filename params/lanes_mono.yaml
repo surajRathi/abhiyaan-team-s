@@ -12,9 +12,9 @@ cv:
   #  v_lower: 0
   #  v_upper: 255
   erosion_size: 2
-  erosion_iter: 3 #1
-  blur_size: 5 #3
-  upper_mask_percent: 60
+  erosion_iter: 1 #1
+  blur_size: 4 #3
+  upper_mask_percent: 50
 
   publish_masked: yes
 
@@ -22,10 +22,12 @@ cv:
 lanes:
   max_points: 10000
   stride: 10
-  epsilon_dist: 0.25
-  min_new_dist: 0.5
+  epsilon_dist: 0.35
+  max_vert_dist: 0.75
+  max_horiz_dist: 5.5
+  min_new_dist: 0.35
   max_new_dist: 4.0
-  cos_max_new_angle: 0.8
+  cos_max_new_angle: 0.9
   cos_min_angle_reverse_point: 0.2
 
 
