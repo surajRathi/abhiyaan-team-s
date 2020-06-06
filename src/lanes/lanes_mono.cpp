@@ -16,25 +16,31 @@
 #include <dynamic_reconfigure/server.h>
 #include <igvc_bot/LanesConfig.h>
 
+#include <utility>
 #include <vector>
 
 
 // Objects that the callback needs. Initialized in main().
+// TODO: add a mutex
 struct Helpers {
-    ros::Publisher pub_point_cloud;
+    Helpers(ros::Publisher pc_publisher, image_transport::Publisher image_masked_publisher) {
+        pub_pc = pc_publisher;
+        pub_masked = image_masked_publisher;
+    }
+
+    ros::Publisher pub_pc;
     image_transport::Publisher pub_masked;
 
-    cv::Scalar white_lower, white_upper; // HSV range for color white.
+    cv::Scalar white_lower{0, 0, 0}, white_upper{180, 40, 255}; // HSV range for color white.
 
-    double rect_frac;
-    // For cv::erode
-    uint8_t erosion_size, erosion_iter;
-    cv::Mat erosion_element;
+    double rect_frac{0.6}; // Vertical fraction of image masked
 
-    // for cv::blur
-    uint8_t blur_size;
+    uint8_t erosion_size{2}, erosion_iter{1};
+    cv::Mat erosion_element{cv::getStructuringElement(cv::MorphShapes::MORPH_ELLIPSE, cv::Size(2 * 3 + 1, 2 * 3 + 1))};
 
-    bool publish_masked;
+    uint8_t blur_size{7};
+
+    bool publish_masked{false};
 
     // For projecting the image onto the ground.
     image_geometry::PinholeCameraModel cameraModel;
@@ -80,44 +86,25 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
 
         cv::erode(raw_mask, eroded_mask, helper.erosion_element, cv::Point(-1, -1), helper.erosion_iter);
 
-	cv::erode(eroded_mask, eroded_mask1, helper.erosion_element, cv::Point(-1, -1), helper.erosion_iter);
-/*	if(eroded_mask.empty() == 1){
-	cv::cvtColor(eroded_mask, bgr, cv::COLOR_HSV2BGR);
-	cv::cvtColor(bgr, grey, cv::COLOR_BGR2GRAY);
-	//cv::medianBlur(grey,final_mask1,1);
-        //cv::medianBlur(final_mask1,final_mask2,3);
-	cv::medianBlur(grey,final_mask,1);
-}
-*/
-	cv::medianBlur(eroded_mask1,final_mask1,3);
-	cv::medianBlur(final_mask1,final_mask,5);
-/*	else{
-	cv::medianBlur(grey,final_mask1,3);
-        cv::medianBlur(final_mask1,final_mask2,3);
-	cv::medianBlur(final_mask2,final_mask,5);
-}
-*/
-        // TODO: Make sure we arent detecting any weird blobs and only the lane.
+        cv::erode(eroded_mask, eroded_mask1, helper.erosion_element, cv::Point(-1, -1), helper.erosion_iter);
+
+        cv::medianBlur(eroded_mask1, final_mask1, 3);
+        cv::medianBlur(final_mask1, final_mask, 5);
 
         cv_img->image.copyTo(masked, final_mask);
 
 
-        if (helper.publish_masked)
-            helper.pub_masked.publish(
-                    cv_bridge::CvImage(cv_img->header, cv_img->encoding, masked).toImageMsg());
-
+        if (helper.publish_masked) {
+            helper.pub_masked.publish(cv_bridge::CvImage(cv_img->header, cv_img->encoding, masked).toImageMsg());
+        }
 
         std::vector<cv::Point> points; // All the points which is detected as part of the lane.
         cv::findNonZero(final_mask, points);
 
-        // ROS_INFO("%lu", points.size());
-        // If num points suddenly changes: skip this publish?
-        // Should stop the random explosion of completely incorrect points.s
 
         // Initialize the point cloud:
-        // See: OOPS_WRONG_LINK ~~~https://answers.ros.org/question/212383/transformpointcloud-without-pcl/~~~
         sensor_msgs::PointCloud2Ptr point_cloud = boost::make_shared<sensor_msgs::PointCloud2>();
-        point_cloud->header.frame_id = ground_frame; // helper.cameraModel.tfFrame();
+        point_cloud->header.frame_id = ground_frame;
         point_cloud->header.stamp = ros::Time::now();
         point_cloud->height = 1;
         point_cloud->width = points.size();
@@ -125,15 +112,16 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
         point_cloud->is_dense = false;
 
         sensor_msgs::PointCloud2Modifier pc_mod(*point_cloud);
-        pc_mod.setPointCloud2FieldsByString(1, "xyz"); // Only want to publish spatial data.
+        pc_mod.setPointCloud2FieldsByString(1, "xyz");
 
 
         // Change the transform to a more useful form.
-        tf::Quaternion trans_rot = transform.getRotation();
-        cv::Vec3d trans_vec{trans_rot.x(), trans_rot.y(), trans_rot.z()};
-        double trans_sca = trans_rot.w();
+        const tf::Quaternion trans_rot = transform.getRotation();
+        const cv::Vec3d trans_vec{trans_rot.x(), trans_rot.y(), trans_rot.z()};
+        const double trans_sca = trans_rot.w();
 
         sensor_msgs::PointCloud2Iterator<float> x(*point_cloud, "x"), y(*point_cloud, "y"), z(*point_cloud, "z");
+
         for (const auto &point : points) {
             // ___________ Ray is a vector that points from the camera to the pixel: __________
             // Its calculation is pretty simple but is easier to use the image_geometry package.
@@ -145,7 +133,6 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
              * f is focal length
              */
             cv::Point3d ray_cameraModel_frame = helper.cameraModel.projectPixelTo3dRay(point);
-            //^ 3d d=>double.
 
             /* Note: the ray_cameraModel_frame is not in the same frame as the tf_frame: camera_left
              * Ray frame:
@@ -164,31 +151,18 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
              * What we do is basically scale the ray_cameraModel_frame such that the end touches the ground (we know the lane points are actually on the ground.
              * Then we add those co-ords to the point cloud.
              * ___________ We are basically checking the coords where the ray_cameraModel_frame intersects the ground ________
+             * This can later be extended for non planar surfaces by checking where the ray intersects a lidar generated 3d mesh
              */
             cv::Vec3d ray{ray_cameraModel_frame.z, -ray_cameraModel_frame.x, -ray_cameraModel_frame.y};
 
-            /* NOT REQUIRED:
-            const static cv::Vec3d unit{1, 1, 1};
-            cv::Vec3d a = unit.cross(ray);
-            const double w_sq = (cv::norm(unit) * cv::norm(ray) + unit.dot(ray));
-            const double fac = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2] + w_sq);
-            //
-            // https://stackoverflow.com/a/1171995/1515394
-            geometry_msgs::Pose pose;
-            pose.orientation.x = a[0] / fac;
-            pose.orientation.y = a[1] / fac;
-            pose.orientation.z = a[2] / fac;
-            pose.orientation.w = cv::sqrt(w_sq) / fac;
-            */
-
             // Rotate ray by using the transform.
-            // Kinda black magic on v_p = q * v * q'
+            // Kinda black mathematics on v_p = q * v * q'
             // https://gamedev.stackexchange.com/a/50545/90578
             cv::Vec3d ray_p = 2.0 * trans_vec.dot(ray) * trans_vec
                               + (trans_sca * trans_sca - trans_vec.dot(trans_vec)) * ray
                               + 2.0f * trans_sca * trans_vec.cross(ray);
 
-            if (ray_p[2] == 0) // TODO: Handle
+            if (ray_p[2] == 0) // Should never happen
                 continue;
 
             // Scale factor for ray so it touches the ground
@@ -199,36 +173,33 @@ void callback(const sensor_msgs::ImageConstPtr &msg_left,
             *y = transform.getOrigin().y() - ray_p[1] * scale;
             *z = 0; // transform.getOrigin().z() - ray_p[2] * scale;
 
-            // Go to next point in pointcloud.
+            // Pointcloud iterators
             ++x;
             ++y;
             ++z;
         }
-        helper.pub_point_cloud.publish(point_cloud);
+        helper.pub_pc.publish(point_cloud);
 
-    } catch (std::exception &e) {
+    } catch (std::exception &e) { // Not a good idea....
         ROS_ERROR("Callback failed: %s", e.what());
     }
 }
 
-// This allows us to change params of the node while it is running: see cfg/lanes.cfg.
+// This allows us to change params of the node while it is running: uses cfg/lanes.cfg.
 // Try running `rosrun rqt_reconfigure rqt_reconfigure` while node is running.
 // This also auto loads any params initially set in the param server.
-// The the ros page for 'dynamic_reconfigure'
-//
 void dynamic_reconfigure_callback(const igvc_bot::LanesConfig &config, const uint32_t &level, Helpers &helpers) {
+    ROS_INFO("Reconfiguring the params.");
+
     if (level & 1u << 0u) {
-        ROS_INFO("Reconfiguring lower level.");
         helpers.white_lower = cv::Scalar(config.h_lower, config.s_lower, config.v_lower);
     }
 
     if (level & 1u << 1u) {
-        ROS_INFO("Reconfiguring upper level.");
         helpers.white_upper = cv::Scalar(config.h_upper, config.s_upper, config.v_upper);
     }
 
     if (level & 1u << 2u) {
-        ROS_INFO("Reconfiguring erosion kernel.");
         helpers.erosion_size = config.erosion_size;
         helpers.erosion_iter = config.erosion_iter;
         helpers.erosion_element = cv::getStructuringElement(cv::MorphShapes::MORPH_ELLIPSE,
@@ -237,18 +208,14 @@ void dynamic_reconfigure_callback(const igvc_bot::LanesConfig &config, const uin
     }
 
     if (level & 1u << 3u) {
-        ROS_INFO("Reconfiguring masked publishing.");
         helpers.publish_masked = config.publish_masked;
-        // Deconstruct the helpers.pub_masked
     }
 
     if (level & 1u << 4u) {
-        ROS_INFO("Reconfiguring blur size.");
         helpers.blur_size = 2 * config.blur_size + 1;
     }
 
     if (level & 1u << 5u) {
-        ROS_INFO("Reconfiuring rect mask");
         helpers.rect_frac = config.upper_mask_percent / 100.0;
     }
 }
@@ -266,19 +233,6 @@ int main(int argc, char **argv) {
     Helpers helper{
             nh.advertise<sensor_msgs::PointCloud2>(topic_pointcloud2, 5),
             imageTransport.advertise(topic_masked, 1),
-
-            (0, 0, 0),
-            (180, 40, 255),
-
-            0.6,
-
-            2,
-            1,
-            cv::getStructuringElement(cv::MorphShapes::MORPH_ELLIPSE, cv::Size(2 * 3 + 1, 2 * 3 + 1)),
-
-            7,
-
-            false
     };
 
 
@@ -287,14 +241,12 @@ int main(int argc, char **argv) {
     helper.cameraModel.fromCameraInfo(camera_info);
 
 
-    // For the dynamic parameter reconfigeration. see the function dynamic_reconfigure_callback
     dynamic_reconfigure::Server<igvc_bot::LanesConfig> server;
     dynamic_reconfigure::Server<igvc_bot::LanesConfig>::CallbackType dynamic_reconfigure_callback_function = boost::bind(
             &dynamic_reconfigure_callback, _1, _2, boost::ref(helper));
     server.setCallback(dynamic_reconfigure_callback_function);
 
 
-    // Adds the callback
     image_transport::Subscriber sub = imageTransport.subscribe(topic_image, 2,
                                                                boost::bind(&callback, _1, boost::ref(helper)));
 
