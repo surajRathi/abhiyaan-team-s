@@ -2,8 +2,8 @@
 
 
 Contributors: 
- Sachidanand VS ep19b010@smail.iitm.ac.in
- Suraj Rathi me19b177@smail.iitm.ac.in
+- Sachidanand VS ep19b010@smail.iitm.ac.in
+- Suraj Rathi me19b177@smail.iitm.ac.in
 
 ## OVERVIEW:
 
@@ -103,7 +103,7 @@ Scope for Improvement:
 2.  Use the laser based data to ignore sections of the image containing obstacles.
 3.  Detect the lanes themself as a continuous series of line segments.
 
-The third point was attempted with partial success; however, it was deemed unnecessary for the task at hand based on success with simpler methods and time constraints.
+The third point was attempted with partial success; however, it was deemed unnecessary for the task at hand based on success with simpler methods and time constraints. [See Here:](https://github.com/surajRathi/abhiyaan-team-s/blob/line_lanes/src/lanes/lanes_mono.cpp)
 
 ## PATH PLANNING:
 
