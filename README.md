@@ -17,55 +17,34 @@ The main steps in our project were the following:
 The idea is to turn the lanes into a set of points which the path planning can treat like an obstacle. This white pixels in the lane are converted to a point cloud by computing the coordinates of point and angle from the camera and projecting it on the ground then the point cloud is sent as a ROS PointCloud2 message to the move\_base. Path Planning is done by ROS Navigation Stack’s “move\_base” node. The map is created from sensor reading from laser sensor and camera which detects lane. The global and local maps are layered so the vehicle is simultaneously aware of its location on each. The sensor’s used are 1 laser scanner, 2 camera’s for each lane ,1 IMU sensor ,1 GPS sensor.
 
 ## SENSORS USED:
+1. 2-D Lidar : Mounted at the front of the robot to detect solid obstacles.
+2. RGB Camera: Two such cameras are mounted in an elevated position on the front of the robot.
+Required for lane detection
+3. GPS Unit: Mounted near the core of the robot
+4. IMU with 6 DOF: For more accurate odometry
 
-1.  2-D Lidar : Mounted at the front of the robot to detect solid obstacles.
-2.  RGB Camera: Two such cameras are mounted in an elevated position on the front of the robot. Required for lane detection
-3.  GPS Unit: Mounted near the core of the robot
+#### 2-D lidar sensor:
+* Range : 5-8 meters
+* Angle : 360 degree
+* Quantity : 1
+* Min_Scan_frequency: 10 Hz
+* Model: Sick LD-LRS3600. no price shown
 
-How big/long are these antennas?
+#### CAMERA :
+* Rate: 30 fps
+* Type: RGB image
+* Angle : 120 degree and above is ok
+* Model : AUKEY DR01
+* Price : Rs . 6000
 
-1.  IMU with 6 DOF: For more accurate odometry
+#### GPS SENSOR:
+* Price : Rs.1925.00
+* Model: Radiolink M8N GPS Module UBX-M8030
 
-2-D lidar sensor:
-
- Range : 5-8 meters
-
- Angle : 360 degree
-
- Quantity : 1
-
- Min\_Scan\_frequency: 10 Hz
-
-Team uses sick sensors. [*Sick LD-LRS3600*](https://www.sick.com/in/en/detection-and-ranging-solutions/2d-lidar-sensors/ld-lrs/ld-lrs3600/p/p362656). The main narrowing factor was the 360° Fov, no price shown
-
-******
-
-CAMERA :
-
- Rate: 30 fps
-
- Type: RGB image
-
- Angle : 120 degree and above is ok
-
- model : AUKEY DR01
-
- Price : Rs . 6000
-
-GPS SENSOR:
-
-Price : Rs.1925.00
-
-Model: ****Radi****o****link M8N GPS Module UBX-M8030****
-
-IMU SENSOR:
-
-DOF : 6
-
-Model : 6-axis Rate Gyro BMI160 Gravity Accelerometer Sensor Module IIC SPI Br
-
-Price : Rs.1290
-
+#### IMU SENSOR:
+* DOF : 6
+* Model : 6-axis Rate Gyro BMI160 Gravity Accelerometer Sensor Module IIC SPI Br
+* Price : Rs.1290
 we are not sure about the model but the specification mentioned are the requirement.
 
 ## LOCALISATION:
