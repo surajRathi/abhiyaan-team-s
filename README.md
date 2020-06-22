@@ -16,6 +16,8 @@ The main steps in our project were the following:
 
 The idea is to turn the lanes into a set of points which the path planning can treat like an obstacle. This white pixels in the lane are converted to a point cloud by computing the coordinates of point and angle from the camera and projecting it on the ground then the point cloud is sent as a ROS PointCloud2 message to the move\_base. Path Planning is done by ROS Navigation Stack’s “move\_base” node. The map is created from sensor reading from laser sensor and camera which detects lane. The global and local maps are layered so the vehicle is simultaneously aware of its location on each. The sensor’s used are 1 laser scanner, 2 camera’s for each lane ,1 IMU sensor ,1 GPS sensor.
 
+Note: [heruistic based lane detection here, i.e. detecting the lanes as line segments, not point clouds.:](https://github.com/surajRathi/abhiyaan-team-s/blob/line_lanes/src/lanes/lanes_mono.cpp) , in the branch line_lanes
+
 ## SENSORS USED:
 1. 2-D Lidar : Mounted at the front of the robot to detect solid obstacles.
 2. RGB Camera: Two such cameras are mounted in an elevated position on the front of the robot.
