@@ -9,7 +9,7 @@ Contributors:
 - First take a look at the roslaunch file. This will show the different nodes involved
 - Costmap/Move_base configeration: See params/{move_base.yaml, costmap*.yaml}
 - PointCloud based lane detection: src/lanes/lanes_mono.cpp
-- Expiermental line segment based lane detection: branch:line_lanes
+- Expiermental line segment based lane detection: [branch:line_lanes](https://github.com/surajRathi/abhiyaan-team-s/tree/line_lanes)
 
 ## OVERVIEW:
 
