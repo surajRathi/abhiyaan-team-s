@@ -7,7 +7,7 @@ Store it as a set of line_segments (set of points). With every image, we take th
 We also add new endpoints to the model.
 
 # Sample:
-[Sample image](img-2020-06-22-202639.png)
+![Sample image](img-2020-06-22-202639.png)
 
 # How does this work?
 Two major components:
