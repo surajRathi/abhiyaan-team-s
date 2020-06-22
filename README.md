@@ -10,8 +10,8 @@ We also add new endpoints to the model.
 # How does this work?
 Two major components:
 
-- lanes_mono
-- custom costmap layer
+- lanes_mono: src/lanes/lanes_mono.cpp
+- custom costmap layer src/lanes_layer/
 
 ## Lanes Mono
 - Takes an image
@@ -21,3 +21,7 @@ Two major components:
 - Modifiying existing segments of the line based on new data
 - Removing incorrect Points.
 
+
+## Custom costmap layer:
+- Draws a set of linesegments on the costmap.
+- Can adjust to changes in the linesegments.
