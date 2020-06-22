@@ -25,3 +25,10 @@ Two major components:
 ## Custom costmap layer:
 - Draws a set of linesegments on the costmap.
 - Can adjust to changes in the linesegments.
+
+
+
+# TODO: 
+- Make the lanes aware of eachother, i.e. right lane doens't add new points from the region the left lane alread exists,
+- Unify the two processing nodes to better let them be aware of eachother
+
