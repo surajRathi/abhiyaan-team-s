@@ -39,10 +39,17 @@ Two major components:
 # Explanation with images
 ## Temporary
 
+### A Sample path
 ![Sample image](images/explain1.jpeg)
+
+### Detected points are divided into categories based on which segment of the existing path they fall into
+This is done using the vert_dist function
 ![Sample image](images/explain2.jpeg)
+### For detected points at the head of the path, i.e. not in any segment, If it falls into a given range, it is added.
 ![Sample image](images/explain3.jpeg)
+### Sample suppposing a point is added to the head of the path
 ![Sample image](images/explain4.jpeg)
+### Along existing segments of the path, if a point's distance from the path is within a certain range, it is added to the path
 ![Sample image](images/explain5.jpeg)
-![Sample image](images/explain6.jpeg)
+### 'Backwards Points', if the addition of a point causes the path to turn sharpely, the following point is removed from the path.
 ![Sample image](images/explain7.jpeg)
