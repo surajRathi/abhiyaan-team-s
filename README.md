@@ -34,3 +34,14 @@ Two major components:
 - Make the lanes aware of eachother, i.e. right lane doens't add new points from the region the left lane alread exists,
 - Unify the two processing nodes to better let them be aware of eachother
 
+
+# Explanation with images
+## Temporary
+
+![Sample image](images/explain1.png)
+![Sample image](images/explain2.png)
+![Sample image](images/explain3.png)
+![Sample image](images/explain4.png)
+![Sample image](images/explain5.png)
+![Sample image](images/explain6.png)
+![Sample image](images/explain7.png)
