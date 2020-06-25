@@ -7,7 +7,7 @@ Store it as a set of line_segments (set of points). With every image, we take th
 We also add new endpoints to the model.
 
 # Sample:
-![Sample image](imgages/sample.png)
+![Sample image](images/sample.png)
 
 # How does this work?
 Two major components:
@@ -38,10 +38,10 @@ Two major components:
 # Explanation with images
 ## Temporary
 
-![Sample image](images/explain1.png)
-![Sample image](images/explain2.png)
-![Sample image](images/explain3.png)
-![Sample image](images/explain4.png)
-![Sample image](images/explain5.png)
-![Sample image](images/explain6.png)
-![Sample image](images/explain7.png)
+![Sample image](images/explain1.jpeg)
+![Sample image](images/explain2.jpeg)
+![Sample image](images/explain3.jpeg)
+![Sample image](images/explain4.jpeg)
+![Sample image](images/explain5.jpeg)
+![Sample image](images/explain6.jpeg)
+![Sample image](images/explain7.jpeg)
